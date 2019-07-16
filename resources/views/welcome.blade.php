@@ -1,98 +1,62 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Place Searches</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <input type="text" name="" id="searchTextField">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 50%;
-        width: 50%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="/css/app.css">
+        <title>Settavut</title>
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <style>
+          #map {
+            height: 100%;
+          }
+          /* Optional: Makes the sample page fill the window. */
+          html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+
+          #map {
+            height: 500px;
+            width: 600px;
+          }
+        </style>
+    
+    </head>
+    <body>
+    <div class="flex-center position-ref full-height">
+      <div class="content">
+        <div id="app">
+          <search-box></search-box>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:50px">
+      <div class="row">
+        <div class="col-sm">
+          <div id="listData">
+          
+          </div>
+        </div>
+        <div class="col-sm">
+          <div id="map"></div> 
+        </div>
+      </div>
+    </div>
     <script>
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-      var map;
-      var service;
-      var infowindow;
-
       function initMap() {
-        var sydney = new google.maps.LatLng(13.736717, 100.523186);
-
-        infowindow = new google.maps.InfoWindow();
-
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input = 'bangsue');
-        console.log(autocomplete);
-
-        map = new google.maps.Map(
-            document.getElementById('map'), {center: sydney, zoom: 15});
-
-        var request = {
-          query: 'Bangsue',
-          fields: ['name', 'geometry'],
-          types: ["restaurant"]
-        };
-
-        console.log(getLocation())
-
-        function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-          } else {
-            alert("Geolocation is not supported by this browser.");
-          }
+        var mapOptions = {
+          center: {lat: 13.847860, lng: 100.604274},
+          zoom: 18,
         }
-        function showPosition(position) {
-          var lat = position.coords.latitude;
-          var lng = position.coords.longitude;
-          map.setCenter(new google.maps.LatLng(lat, lng));
-        }
-
-        console.log()
-
-        service = new google.maps.places.PlacesService(map);
-        
-
-        service.findPlaceFromQuery(request, function(results, status) {
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            for (var i = 0; i < results.length; i++) {
-              createMarker(results[i]);
-            }
-
-            map.setCenter(results[0].geometry.location);
-          }
-        });
-      }
-
-      function createMarker(place) {
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place.geometry.location
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open(map, this);
-        });
+        var maps = new google.maps.Map(document.getElementById("map"),mapOptions);
       }
     </script>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR0Dy6Cddlr9JODidPsE842Db06-dgr6s&libraries=places&callback=initMap" async defer></script>
+    <script src="js/app.js" charset="utf-8"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCs41agvvNHRTct5q-YEVwKXvfstVa3Fl4&libraries=places&callback=initMap" async defer></script>
   </body>
 </html>
 
