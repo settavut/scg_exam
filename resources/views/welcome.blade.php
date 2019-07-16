@@ -4,11 +4,13 @@
     <title>Place Searches</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <input type="text" name="" id="searchTextField">
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 50%;
+        width: 50%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -27,19 +29,42 @@
       var infowindow;
 
       function initMap() {
-        var sydney = new google.maps.LatLng(-33.867, 151.195);
+        var sydney = new google.maps.LatLng(13.736717, 100.523186);
 
         infowindow = new google.maps.InfoWindow();
+
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input = 'bangsue');
+        console.log(autocomplete);
 
         map = new google.maps.Map(
             document.getElementById('map'), {center: sydney, zoom: 15});
 
         var request = {
-          query: 'Museum of Contemporary Art Australia',
+          query: 'Bangsue',
           fields: ['name', 'geometry'],
+          types: ["restaurant"]
         };
 
+        console.log(getLocation())
+
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        }
+        function showPosition(position) {
+          var lat = position.coords.latitude;
+          var lng = position.coords.longitude;
+          map.setCenter(new google.maps.LatLng(lat, lng));
+        }
+
+        console.log()
+
         service = new google.maps.places.PlacesService(map);
+        
 
         service.findPlaceFromQuery(request, function(results, status) {
           if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -67,7 +92,7 @@
   </head>
   <body>
     <div id="map"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuQic47UCp8ldnRr_arAIE4sN16UaV8Ro&libraries=places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBR0Dy6Cddlr9JODidPsE842Db06-dgr6s&libraries=places&callback=initMap" async defer></script>
   </body>
 </html>
 
