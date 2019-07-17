@@ -21,28 +21,31 @@ export default {
     methods:{
         searchPlace(){
             if(!this.place){
-                alert('Plase type something in search box before submit')
-                return;
+               this.place = 'bangsue'
             }
-            axios.get(`getRestaurant/${this.place}`).then(response=>{
-                var places = response.data.results;                
+            axios.get(`place/${this.place}`).then(response=>{
+                var listData = document.getElementById('listData');
+                listData.innerHTML = '';
+                var places = response.data;   
                 for(let key in places){
                     if (places.hasOwnProperty(key)) {
                         var place = places[key];
                         // Move to first marker
+                        var markerLat = place['geometry']['location']['lat']
+                        var markerLng = place['geometry']['location']['lng']
                         if(key == 0){
                             var mapOptions = {
-                                center: {lat: place['geometry']['location']['lat'], lng: place['geometry']['location']['lng']},
+                                center: {lat: markerLat, lng: markerLng},
                                 zoom: 18,
                             }
-                            var maps = new google.maps.Map(document.getElementById("map"),mapOptions);
+                            maps = new google.maps.Map(document.getElementById("map"),mapOptions);
                         } 
+                        
                         // Loop for Card
                         var listData = document.getElementById('listData');
-                        console.log(listData);
                         listData.innerHTML += 
-                        `<div class="card" style="width: 18rem;">
-                            <div class="card-body">
+                        `<div class="card" style="width: 18rem;cursor: pointer">
+                            <div class="card-body" onclick="moveToMarker(${markerLat},${markerLng})">
                                 <h5 class="card-title">${place['name']}</h5>
                                 <p class="card-text">${place['formatted_address']}</p>
                             </div>

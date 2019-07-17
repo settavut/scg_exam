@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/getRestaurant/{place}','googleApiController@getPlaceData');
+Route::get('/place/{place}','googleApiController@getPlaceData');

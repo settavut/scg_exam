@@ -47,13 +47,21 @@
       </div>
     </div>
     <script>
+      var maps; 
+
       function initMap() {
         var mapOptions = {
           center: {lat: 13.847860, lng: 100.604274},
           zoom: 18,
         }
-        var maps = new google.maps.Map(document.getElementById("map"),mapOptions);
+        maps = new google.maps.Map(document.getElementById("map"),mapOptions);
       }
+
+      function moveToMarker(markerLat,markerLng){
+        var latLng = new google.maps.LatLng(markerLat, markerLng);
+        maps.setCenter(latLng);
+      }
+
     </script>
     <script src="js/app.js" charset="utf-8"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCs41agvvNHRTct5q-YEVwKXvfstVa3Fl4&libraries=places&callback=initMap" async defer></script>
