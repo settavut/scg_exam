@@ -18,10 +18,16 @@ export default {
             place:''
         }
     },
+     beforeMount(){
+        this.place = 'Bangsue'
+        this.searchPlace()
+        this.place = '';
+    },
     methods:{
         searchPlace(){
             if(!this.place){
-               this.place = 'bangsue'
+                alert('Plase enter keywords before search');
+               return;
             }
             axios.get(`place/${this.place}`).then(response=>{
                 var listData = document.getElementById('listData');
